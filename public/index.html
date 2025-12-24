@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meeting Minutes Translator</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: #f6f7fb;
+        color: #1f2a44;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px;
+      }
+
+      header {
+        max-width: 1200px;
+        margin: 0 auto 24px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+
+      .layout {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        gap: 16px;
+      }
+
+      .panel {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 180px;
+        resize: vertical;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #d3d9e7;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-top: 8px;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: end;
+      }
+
+      .controls select,
+      .controls input {
+        border-radius: 10px;
+        border: 1px solid #cbd5f5;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      button {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 16px;
+        background: #2563eb;
+        color: #ffffff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button.secondary {
+        background: #e2e8f0;
+        color: #1f2a44;
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .columns {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+
+      .output {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 12px;
+        min-height: 180px;
+        white-space: pre-wrap;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .status {
+        font-size: 13px;
+        color: #475569;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="badge">Meeting Minutes Export</div>
+      <h1>Translate transcripts to Vietnamese</h1>
+      <p class="status">
+        Paste the transcript, choose the source language, and translate while keeping speaker/timestamp formatting.
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="controls">
+          <div>
+            <label for="apiBaseUrl">Translate API base URL</label>
+            <input
+              id="apiBaseUrl"
+              type="text"
+              value="https://api.example.com"
+              placeholder="https://api.example.com"
+            />
+          </div>
+          <div>
+            <label for="apiKey">API Key (optional)</label>
+            <input id="apiKey" type="text" placeholder="Bearer token" />
+          </div>
+          <div>
+            <label for="sourceLang">Source language</label>
+            <select id="sourceLang">
+              <option value="EN">English (EN)</option>
+              <option value="ZH">Chinese (ZH)</option>
+            </select>
+          </div>
+          <div>
+            <label for="targetLang">Target language</label>
+            <select id="targetLang" disabled>
+              <option value="VI">Vietnamese (VI)</option>
+            </select>
+          </div>
+          <button id="translateButton">Translate</button>
+        </div>
+        <label for="transcriptInput">Transcript</label>
+        <textarea
+          id="transcriptInput"
+          placeholder="[00:00:04] Alice: Good morning everyone\n[00:00:08] Bob: Let's start"
+        ></textarea>
+      </section>
+
+      <section class="panel">
+        <div class="controls">
+          <div>
+            <span class="badge">Results</span>
+          </div>
+          <button id="copyTranslation" class="secondary" disabled>Copy translation</button>
+          <button id="exportTranslation" class="secondary" disabled>Export .txt</button>
+        </div>
+        <div class="columns">
+          <div>
+            <label>Original transcript</label>
+            <div id="originalOutput" class="output"></div>
+          </div>
+          <div>
+            <label>Vietnamese translation</label>
+            <div id="translationOutput" class="output"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
