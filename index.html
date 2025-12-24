@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meeting Minutes Export</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Meeting Minutes Export</h1>
+        <p class="subtitle">
+          Tải file audio để chuyển giọng nói thành văn bản. Hệ thống hỗ trợ giới hạn dung lượng
+          và cắt/chia đoạn để tránh timeout.
+        </p>
+      </header>
+
+      <section class="card">
+        <h2>1. Chọn file audio</h2>
+        <div class="input-group">
+          <label for="audioFile">File audio</label>
+          <input id="audioFile" type="file" accept="audio/*" />
+          <p id="fileHint" class="hint">
+            Giới hạn dung lượng <strong>&lt; 50MB</strong>. Ưu tiên định dạng MP3/WAV để có kết quả tốt nhất.
+          </p>
+          <p id="fileMeta" class="meta"></p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. Cắt/chia đoạn (tuỳ chọn)</h2>
+        <div class="grid">
+          <div>
+            <label for="trimStart">Bắt đầu (giây)</label>
+            <input id="trimStart" type="number" min="0" step="0.5" value="0" />
+          </div>
+          <div>
+            <label for="trimEnd">Kết thúc (giây)</label>
+            <input id="trimEnd" type="number" min="0" step="0.5" value="0" />
+          </div>
+        </div>
+        <label class="checkbox">
+          <input id="enableSplit" type="checkbox" />
+          Chia đoạn trước khi gửi (để tránh timeout)
+        </label>
+        <div class="grid" id="splitOptions">
+          <div>
+            <label for="chunkDuration">Độ dài mỗi đoạn (giây)</label>
+            <input id="chunkDuration" type="number" min="10" step="5" value="120" />
+          </div>
+          <div>
+            <label for="overlap">Chồng lấn (giây)</label>
+            <input id="overlap" type="number" min="0" step="1" value="2" />
+          </div>
+        </div>
+        <p class="hint">
+          Nếu không cần cắt/chia, để trống các trường hoặc bỏ chọn chia đoạn.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>3. Transcribe</h2>
+        <button id="transcribeBtn" class="primary">Bắt đầu transcribe</button>
+        <div id="progressArea" class="progress hidden">
+          <div class="spinner"></div>
+          <div>
+            <p class="progress-title">Đang xử lý...</p>
+            <p id="progressDetail" class="progress-detail"></p>
+          </div>
+        </div>
+        <div id="result" class="result"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
